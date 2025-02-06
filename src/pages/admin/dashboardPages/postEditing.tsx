@@ -11,6 +11,8 @@ import {
 import validateToken from "../../../functions/validate"
 import Unauthorized from "../../errorPages/unauthorized"
 
+
+
 async function fetchPosts(
   setPosts: React.Dispatch<React.SetStateAction<BlogPostDataBodyJson[]>>
 ) {
@@ -38,7 +40,6 @@ const PostEditing = () => {
   const [posts, setPosts] = useState<Array<BlogPostDataBodyJson>>([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-
   async function deletePost() {
     const token = getToken();
     if (!selectedPost) {
@@ -86,7 +87,6 @@ const PostEditing = () => {
       return;
     }
     const formData = buildPostMultipart(title, content);
-
     try {
       const response = await fetch(
         `${API_URL}/blog/post/${selectedPost.id}`,
@@ -122,7 +122,8 @@ const PostEditing = () => {
   useEffect(() => {
     if (selectedPost) {
       setTitle(selectedPost.title);
-      
+      setContent(selectedPost.content)
+      //TODO zaminia {{0}} na proxy do zdjecia i problem jest jak chce sie zaktualizowac to w bazie danych
       if (selectedPost.files && selectedPost.content) {
         let tempContent = selectedPost.content;
         selectedPost.files.forEach((attachment, index) => {

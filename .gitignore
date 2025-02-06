@@ -31,3 +31,5 @@ dist-ssr
 src/backend/files
 src/backend/backend
 .vercel
+
+*.txt

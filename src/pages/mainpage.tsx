@@ -20,7 +20,6 @@ const Mainpage = () => {
             method: "GET",
           }
         );
-        console.log(response);
         if (!response.ok) {
           throw new Error(response.statusText);
         }
@@ -84,10 +83,10 @@ const Mainpage = () => {
         <div></div>
       )}
       <br></br>
+      {/* <br></br>
       <br></br>
       <br></br>
-      <br></br>
-      <br></br>
+      <br></br> */}
 
       <Image_Text
         image={landscapeImage}

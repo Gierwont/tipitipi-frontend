@@ -28,7 +28,9 @@ const Post = ({
       }
       content = content.replace(
         `{{${index}}}`,
+        // `<img style="max-height:200px;" src="${API_URL}/proxy?key=${attachment.filename}&type=blog" alt="${attachment.filename}"/>`
         `<img style="max-height:200px;" src="${API_URL}/proxy?key=${attachment.filename}&type=blog" alt="${attachment.filename}"/>`
+
       );
     });
   } else {
@@ -37,7 +39,7 @@ const Post = ({
     }
   }
   return (
-    <div className=" mb-6 border-4 bg-white border-gray-800 rounded-lg">
+    <div className=" mb-6 border-4 bg-white border-gray-800 rounded-lg ">
       <div className="bg-gray-900 text-white pt-4 p-4 text-xl md:text-3xl">
         <div className="float-left ">{title}</div>
         <div className="float-right">
@@ -53,7 +55,7 @@ const Post = ({
       </div>
       {content ? (
         <div
-          className={`ql-editor  px-4 pt-4 text-medium ${
+          className={`ql-editor quill px-4 pt-4 text-medium ${
             willBeUsedManyTimes ? "line-clamp-2" : ""
           }`}
           dangerouslySetInnerHTML={{ __html: content }}

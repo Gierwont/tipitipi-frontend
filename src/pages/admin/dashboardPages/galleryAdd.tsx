@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { API_URL } from '../../../functions/global'
 
 
-async function addNewGroup(name: string , setNewGroupName: React.Dispatch<React.SetStateAction<string>>) {
+async function addNewGroup(name: string , description : string , setNewGroupName: React.Dispatch<React.SetStateAction<string>>) {
   const token = getToken();
   if (name == "") {
     toast.warn("Nie podano nazwy nowego albumu");
@@ -23,12 +23,16 @@ async function addNewGroup(name: string , setNewGroupName: React.Dispatch<React.
   }
   try {
     const response = await fetch(
-      `${API_URL}/gallery/groups/new/${name}`,
+      `${API_URL}/gallery`,
       {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        body: JSON.stringify({
+          name: name,
+          description: description
+      }) 
       }
     );
 
@@ -48,6 +52,7 @@ async function addNewGroup(name: string , setNewGroupName: React.Dispatch<React.
 
 const GalleryAdd = () => {
   const [newGroupName, setNewGroupName] = useState("");
+  const [newGroupDesc, setNewGroupDesc] = useState("");
   const [groups, setGroups] = useState<GalleryGroup[]>([]);
   const [selectedGroup, setSelectedGroup] = useState<GalleryGroup | null>();
   const [images, setImages] = useState<FileList | null>();
@@ -55,7 +60,7 @@ const GalleryAdd = () => {
   async function fetchGroups() {
     try {
       const response = await fetch(
-        `${API_URL}/gallery/groups/all/info`,
+        `${API_URL}/gallery?offset=0&limit=10`,
         {
           method: "GET",
         }
@@ -85,9 +90,11 @@ const GalleryAdd = () => {
     }
     const token = getToken();
     const formData = buildGalleryMultipart(images);
+    console.log(images)
+    console.log(formData)
     try {
       const response = await fetch(
-        `${API_URL}/gallery/groups/${selectedGroup.id}/images`,
+        `${API_URL}/gallery/${selectedGroup.id}/images`,
         {
           method: "POST",
           headers: {
@@ -136,22 +143,36 @@ const GalleryAdd = () => {
     <div className="globalCss mt-[1%]">
       <div>
         <h1 className="text-3xl font-bold mb-6">Tworzenie albumów/grup</h1>
-        <label className="text-xl" htmlFor="newAlbum">
+        <label className="text-xl" htmlFor="newAlbumName">
           Podaj nazwę nowego albumu:{" "}
         </label>
         <input
           className="border-2 "
           type="text"
-          name="newAlbum"
+          name="newAlbumName"
           value={newGroupName}
           onChange={(e) => setNewGroupName(e.target.value)}
         />
         <br></br>
+
+        <label className="text-xl" htmlFor="newAlbumDescription">
+          Podaj opis nowego albumu:{" "}
+        </label><br></br>
+        <input
+          className="border-2 w-1/3"
+          type="text"
+          name="newAlbumDescription"
+          value={newGroupDesc}
+          onChange={(e) => setNewGroupDesc(e.target.value)}
+        />
+        <br></br>
+
+
         <button
           className={
             "border w-40 bg-white shadow-lg hover:bg-slate-100 hover:duration-300 mt-6"
           }
-          onClick={() => addNewGroup(newGroupName,setNewGroupName)}
+          onClick={() => addNewGroup(newGroupName,newGroupDesc , setNewGroupName)}
         >
           Stwórz nowy album
         </button>

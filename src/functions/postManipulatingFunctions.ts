@@ -66,6 +66,7 @@ export function buildPostMultipart(title: string, content: string) {
 
   formData.append("title", title);
   formData.append("content", extractedData.contentWithoutImages);
+  console.log(extractedData.contentWithoutImages)
 
   for (const image of base64images) {
     const blob = base64ToBlob(image);

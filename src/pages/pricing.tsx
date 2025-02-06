@@ -23,7 +23,7 @@ const Pricing = () => {
     setCurrentImage("");
   };
   return (
-    <div className="mx-auto grid grid-cols-3 gap-4 p-4">
+    <div className="mx-auto grid gap-8 p-8  grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
       <img className={img_css} onClick={() => openModal(zdj1)} src={zdj1} />
       <img className={img_css} onClick={() => openModal(zdj2)}  src={zdj2} />
       <img className={img_css} onClick={() => openModal(zdj3)}  src={zdj3} />
