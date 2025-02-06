@@ -67,7 +67,7 @@ const Gallery = () => {
 
   return (
     <div className="bg-gradient-to-r p-5 from-tipiOrange to-tipiPink min-h-screen">
-      <SlideShow
+      {/* <SlideShow
         description="Spotkanie 2022 , 14 lipca w domu tam i tam blabla"
         images={[
           "https://www.adorama.com/alc/wp-content/uploads/2018/11/landscape-photography-tips-yosemite-valley-feature.jpg",
@@ -82,7 +82,7 @@ const Gallery = () => {
           "https://images.photowall.com/products/42556/summer-landscape-with-river.jpg?h=699&q=85",
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgSVMLJAybwkPi2a8EjrNSjQySErCvnOH1Kg&s",
         ]}
-      />
+      /> */}
       {groups ? (
         groups.map((group) =>
           group.images ? (

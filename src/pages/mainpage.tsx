@@ -7,6 +7,9 @@ import Post from "../components/post"
 import PostSkeleton from "../components/postSkeletonLoading"
 import { API_URL } from '../functions/global'
 import { BlogPostDataBodyJson } from "../functions/interfaces"
+import fb from '../assets/facebook.svg'
+import instagram from '../assets/instagram.svg'
+import Text_Component from "../components/text_component"
 const Mainpage = () => {
   const [posts, setPosts] = useState<Array<BlogPostDataBodyJson>>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -42,16 +45,74 @@ const Mainpage = () => {
       {/* <h1>Mainpage</h1>
             <Link to="/admin">Admin</Link>
             <h1 className="text-center">{props.mainpageFirstHeader}</h1> */}
+{/* 
+<ul className="list-disc pl-5 mt-5">
+        <li className="text-xl pt-5">
+          Od lat tworzymy niezapomniane chwile dla dzieci, organizując animacje
+          zarówno w naszej sali zabaw, jak i poza nią. Obsługujemy komunie,
+          wesela, imprezy okolicznościowe oraz duże eventy, zapewniając
+          profesjonalną opiekę i świetną zabawę.
+        </li>
+        <li className="text-xl pt-5">
+          Nasza kadra to młode, pełne energii i doskonale przeszkolone
+          animatorki, które mają ogromne serce do pracy z dziećmi i głowy pełne
+          kreatywnych pomysłów. Co nas wyróżnia? Jako jedyni w okolicy oferujemy
+          gry wielkoformatowe oraz niezwykle bogaty program animacyjny.
+        </li>
+        <li className="text-xl pt-5">
+          Nasi animatorzy to nie przypadkowe osoby - wszyscy posiadają
+          odpowiednie kwalifikacje i doświadczenie, dzięki czemu każda animacja
+          jest na najwyższym poziomie. Jeśli chcesz, aby twoje wydarzenie było
+          pełne uśmiechu i świetnej zabawy - jesteśmy do Twojej dyspozycji!
+        </li>
+      </ul> */}
 
       <Image_Text
         image={background_example}
-        header="Jakiś nagłówek"
-        paragraph="Lorem ipsum dolor sit amet, consectetur adipiscing 
-                    elit. Suspendisse tellus lectus, pharetra a aliquet sed, 
-                    sagittis vel sapien."
+        header="Kim jesteśmy?"
+        paragraph="Nasza kadra to młode, pełne energii i doskonale przeszkolone
+          animatorki, które mają ogromne serce do pracy z dziećmi i głowy pełne
+          kreatywnych pomysłów. Co nas wyróżnia? Jako jedyni w okolicy oferujemy
+          gry wielkoformatowe oraz niezwykle bogaty program animacyjny."
         leftSide={true}
       />
-      {loading ? (
+     
+     <Text_Component
+      header="Czym się zajmujemy?"
+      paragraph="Od lat tworzymy niezapomniane chwile dla dzieci, organizując animacje
+          zarówno w naszej sali zabaw, jak i poza nią. Obsługujemy komunie,
+          wesela, imprezy okolicznościowe oraz duże eventy, zapewniając
+          profesjonalną opiekę i świetną zabawę."
+      
+      />
+
+      <Image_Text
+        image={landscapeImage}
+        header="Dlaczego my?"
+        paragraph="Nasi animatorzy to nie przypadkowe osoby - wszyscy posiadają
+          odpowiednie kwalifikacje i doświadczenie, dzięki czemu każda animacja
+          jest na najwyższym poziomie. Jeśli chcesz, aby twoje wydarzenie było
+          pełne uśmiechu i świetnej zabawy - jesteśmy do Twojej dyspozycji!"
+        leftSide={false}
+      />
+
+      <div>
+    <a  href="#">
+  
+      <button className="bg-blue-400">
+        <img src={fb}/>
+        sfafsaf
+      </button></a>
+      
+      <a  href="#">
+  
+  <button className="bg-orange-400">
+    <img src={instagram}/>
+    sfafsaf
+  </button></a>
+      </div>
+
+{loading ? (
         <div>
           <PostSkeleton />
           <PostSkeleton />
@@ -83,27 +144,6 @@ const Mainpage = () => {
         <div></div>
       )}
       <br></br>
-      {/* <br></br>
-      <br></br>
-      <br></br>
-      <br></br> */}
-
-      <Image_Text
-        image={landscapeImage}
-        header="Jakiś nagłówek"
-        paragraph="Lorem ipsum dolor sit amet, consectetur adipiscing 
-                    elit. Suspendisse tellus lectus, pharetra a aliquet sed, 
-                    sagittis vel sapien.orem ipsum dolor sit amet, consectetur adipiscing 
-                    elit. Suspendisse tellus lectus, pharetra a aliquet sed, 
-                    sagittis vel sapien.orem ipsum dolor sit amet, consectetur adipiscing 
-                    elit. Suspendisse tellus lectus, pharetra a aliquet sed, 
-                    sagittis vel sapien.orem ipsum dolor sit amet, consectetur adipiscing 
-                    elit. Suspendisse tellus lectus, pharetra a aliquet sed, 
-                    sagittis vel sapien.orem ipsum dolor sit amet, consectetur adipiscing 
-                    elit. Suspendisse tellus lectus, pharetra a aliquet sed, 
-                    sagittis vel sapien."
-        leftSide={false}
-      />
     </div>
   );
 };
