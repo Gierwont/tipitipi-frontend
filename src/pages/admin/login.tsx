@@ -50,7 +50,7 @@ const Login = () => {
     }
 
     return(
-        <div className="m-auto mt-[20vh] bg-white p-4 border-2 border-gray-800  text-center w-[30%] min-w-60 rounded-lg">
+        <div className="m-auto mt-[20vh] mb-24 bg-white p-4 border-2 border-gray-800  text-center w-[30%] min-w-60 rounded-lg">
             <form>
                 <div className="p-[5%]">
                     <label className="text-xl font-semibold" htmlFor="login">Podaj login: </label>

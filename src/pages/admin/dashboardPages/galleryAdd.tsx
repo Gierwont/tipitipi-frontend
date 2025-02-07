@@ -159,7 +159,7 @@ const GalleryAdd = () => {
           Podaj opis nowego albumu:{" "}
         </label><br></br>
         <input
-          className="border-2 w-1/3"
+          className="border-2 min-w-[400px] w-1/2"
           type="text"
           name="newAlbumDescription"
           value={newGroupDesc}

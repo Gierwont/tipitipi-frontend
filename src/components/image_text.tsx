@@ -16,7 +16,7 @@ const Image_Text = ({image,header,paragraph,leftSide} : Props) => {
 </div>;
 
   return (
-    <div className="flex items-stretch justify-center pb-[5%] max-h-[400px] md:max-h-[600px] lg:max-h-[800px] overflow-hidden">
+    <div className="flex items-stretch justify-center pb-[5%] max-h-[400px] md:max-h-[600px]  overflow-hidden">
       {leftSide ? imageBlock: textBlock}
       {leftSide ? textBlock : imageBlock}
     </div>
