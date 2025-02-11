@@ -169,6 +169,11 @@ const PostEditing = () => {
   return (
     <div className="globalCss mt-[1%]">
       <div className="my-[1%]">
+        <h1 className="text-center text-red-500 text-3xl m-6">
+          <b>Uwaga</b><br></br> aktualnie edycja postów działa tylko dla tekstu , w celu dodania i usunięcia zdjęć lepiej usunąć post i dodać nowy 
+          post dopóki błąd nie zostanie naprawiony
+
+        </h1>
         <label className="text-xl">Proszę wybrać post</label>
         <br></br>
         <select
