@@ -2,10 +2,23 @@ import { useState } from "react";
 
 interface Props {
   images: string[];
+  description: string;
 }
 
-const SlideShow = ({ images }: Props) => {
+const SlideShow = ({ images , description}: Props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentImage, setCurrentImage] = useState("");
+
+  const openModal = (imgSrc: any) => {
+    setCurrentImage(imgSrc);
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+    setCurrentImage("");
+  };
 
   const goToSlide = (index: number) => {
     setCurrentIndex(index);
@@ -24,9 +37,10 @@ const SlideShow = ({ images }: Props) => {
   };
 
   return (
-    <div className="flex flex-col items-center space-y-4 border border-black relative ">
+    <div className="flex flex-col items-center border-[4px] border-black relative mb-[8%] rounded-lg">
+      <div className="flex items-center text-white bg-[#24252A] text-2xl md:text-3xl lg:text-5xl w-full  p-4 break-words">{description}</div>
       {/* Wybrany slajd powiększony */}
-      <div className="w-full max-w-xl flex justify-center items-center relative h-[500px]">
+      <div className="w-full max-w-xl flex justify-center items-center relative h-[450px]">
         {/* Przycisk strzałki w lewo */}
         <button
           onClick={goToPrevious}
@@ -38,6 +52,7 @@ const SlideShow = ({ images }: Props) => {
         {images.length > 0 && (
           <img
             src={images[currentIndex]}
+            onClick={() => openModal(images[currentIndex])} 
             alt={`Slide ${currentIndex}`}
             className="rounded-lg shadow-lg transition-transform transform duration-300 object-contain max-h-full max-w-full"
           />
@@ -70,6 +85,19 @@ const SlideShow = ({ images }: Props) => {
           </div>
         ))}
       </div>
+
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50"
+          onClick={closeModal} //
+        >
+          <img
+            src={currentImage}
+            alt="Pełny obraz"
+            className="max-w-full max-h-full object-contain cursor-pointer"
+          />
+        </div>
+      )}
     </div>
   );
 };

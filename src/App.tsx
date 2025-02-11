@@ -15,7 +15,7 @@ import Blog from "./pages/blog"
 import PageNotFound from './pages/errorPages/page_not_found'
 import Gallery from "./pages/gallery"
 import Mainpage from "./pages/mainpage"
-import PostPage from './pages/postPage'
+// import PostPage from './pages/postPageDEPRECATED'
 import Pricing from "./pages/pricing"
 
 
@@ -65,7 +65,7 @@ function App() {
         <Route path="/about" element={<About/>}/>
         <Route path="/pricing" element={<Pricing/>}/>
         <Route path="/blog" element={<Blog/>}/>
-        <Route path="/blog/:id" element={<PostPage/>}/>
+        {/* <Route path="/blog/:id" element={<PostPage/>}/> */}
         <Route path='*' element={<PageNotFound/>}/>
       </Routes>
       </div>

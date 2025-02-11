@@ -17,7 +17,7 @@ const Blog = () => {
     async function fetchPost() {
       try {
         const response = await fetch(
-          `${API_URL}/blog/posts?offset=${offset}&limit=${limit}&sort=${sortBy}`,
+          `${API_URL}/blog/posts?offset=${offset}&limit=${limit}&sort=${sortBy}&files=true`,
           {
             method: "GET",
           }
@@ -90,6 +90,7 @@ const Blog = () => {
       <select
         name="sorts"
         id="sorting"
+        value={sortBy}
         onChange={(e) =>
           setSortBy(e.target.value as "newest" | "oldest" | "likes")
         }
@@ -100,6 +101,7 @@ const Blog = () => {
       </select>
       {posts ? (
         posts.map((post, index) => {
+          console.log(post)
           return (
             <div key={index} className="mt-12">
               <Post
@@ -107,7 +109,8 @@ const Blog = () => {
                 content={post.content}
                 title={post.title}
                 date={post.edited_at}
-                willBeUsedManyTimes={true}
+                attachments={post.files}
+                // willBeUsedManyTimes={true}
               />
             </div>
           );

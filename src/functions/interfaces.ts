@@ -13,10 +13,10 @@ export interface BlogPostDataBodyJson {
   error?: string;
 }
 
-export interface GalleryGroup {
-  id: number;
-  name: string;
-}
+// export interface GalleryGroup {
+//   id: number;
+//   name: string;
+// }
 
 // export interface GalleryCreateNewJson {
 //   error?: string;
@@ -31,9 +31,10 @@ export interface GalleryImage {
   group_id: number;
 }
 
-export interface GroupInfo {
+export interface GalleryGroup {
   name: string;
   id: number;
+  description: string;
   images: GalleryImages[]
 }
 

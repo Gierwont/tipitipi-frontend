@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import { API_URL } from '../../../functions/global'
-import { GroupInfo } from "../../../functions/interfaces"
 import { getToken } from "../../../functions/postManipulatingFunctions"
 import validateToken from "../../../functions/validate"
 import Unauthorized from "../../errorPages/unauthorized"
+import { GalleryGroup } from "../../../functions/interfaces"
 
 const RED_BUTTON_CSS =
   "border w-40 text-white shadow-lg bg-red-500 hover:bg-red-600 hover:duration-300";
@@ -40,8 +40,8 @@ async function deleteGroup(id: number) {
 
 
 const GalleryEdit = () => {
-  const [groups, setGroups] = useState<Array<GroupInfo> | null>();
-  const [selectedGroup, setSelectedGroup] = useState<GroupInfo | null>();
+  const [groups, setGroups] = useState<GalleryGroup[]>([]);
+  const [selectedGroup, setSelectedGroup] = useState<GalleryGroup | null>();
 
   async function deleteImage(GroupID : number , imageID:number) {
 

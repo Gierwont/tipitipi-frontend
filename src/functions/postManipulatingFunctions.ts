@@ -66,6 +66,7 @@ export function buildPostMultipart(title: string, content: string) {
 
   formData.append("title", title);
   formData.append("content", extractedData.contentWithoutImages);
+  console.log(extractedData.contentWithoutImages)
 
   for (const image of base64images) {
     const blob = base64ToBlob(image);
@@ -113,3 +114,38 @@ export function getToken(){
 }
 
 
+//z deepseka na szybko
+export const urlToBase64 = async (imageUrl: string): Promise<string> => {
+  try {
+    // Pobierz obraz z URL
+    const response = await fetch(imageUrl);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    // Konwertuj odpowiedź na blob
+    const blob = await response.blob();
+
+    // Konwertuj blob na base64
+    const base64 = await new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (typeof reader.result === 'string') {
+          resolve(reader.result);
+        } else {
+          reject(new Error('Failed to convert blob to base64'));
+        }
+      };
+      reader.onerror = () => reject(new Error('Failed to read file'));
+      reader.readAsDataURL(blob);
+    });
+
+    return base64;
+  } catch (error) {
+    throw new Error(
+      error instanceof Error
+        ? `Failed to convert image to base64: ${error.message}`
+        : 'Failed to convert image to base64'
+    );
+  }
+};
