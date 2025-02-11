@@ -23,7 +23,7 @@ const About = () => {
           innymi organizacjami lub ma partnerów, opisz te relacje.
         </li>
       </ul> */}
-      <ul className="list-disc pl-5 mt-5">
+      {/* <ul className="list-disc pl-5 mt-5">
         <li className="text-xl pt-5">
           Od lat tworzymy niezapomniane chwile dla dzieci, organizując animacje
           zarówno w naszej sali zabaw, jak i poza nią. Obsługujemy komunie,
@@ -42,7 +42,22 @@ const About = () => {
           jest na najwyższym poziomie. Jeśli chcesz, aby twoje wydarzenie było
           pełne uśmiechu i świetnej zabawy - jesteśmy do Twojej dyspozycji!
         </li>
-      </ul>
+      </ul> */}
+      <h1 className="mt-12 text-2xl">
+          Od lat tworzymy niezapomniane chwile dla dzieci, organizując animacje 
+          zarówno w naszej sali zabaw, jak i poza nią. Obsługujemy komunie, 
+          wesela, imprezy okolicznościowe oraz duże eventy, zapewniając 
+          profesjonalną opiekę i świetną zabawę. <br/><br/>
+          Nasza kadra to młode, pełne energii i doskonale przeszkolone 
+          animatorki, które mają ogromne serce do pracy z dziećmi i głowy pełne 
+          kreatywnych pomysłów. Co nas wyróżnia? Jako jedyni w okolicy oferujemy 
+          gry wielkoformatowe oraz niezwykle bogaty program animacyjny. <br/><br/>
+          Nasi animatorzy to nie przypadkowe osoby - wszyscy posiadają 
+          odpowiednie kwalifikacje i doświadczenie, dzięki czemu każda animacja 
+          jest na najwyższym poziomie. Jeśli chcesz, aby twoje wydarzenie było 
+          pełne uśmiechu i świetnej zabawy - jesteśmy do Twojej dyspozycji! 
+        
+      </h1>
 
       <br></br>
       <hr></hr>

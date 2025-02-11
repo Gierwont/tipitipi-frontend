@@ -38,7 +38,7 @@ const SlideShow = ({ images , description}: Props) => {
 
   return (
     <div className="flex flex-col items-center border-[4px] border-black relative mb-[8%] rounded-lg">
-      <div className="text-white bg-[#24252A] text-2xl md:text-4xl lg:text-5xl w-full  min-h-[100px] p-4 break-words">{description}</div>
+      <div className="flex items-center text-white bg-[#24252A] text-2xl md:text-3xl lg:text-5xl w-full  p-4 break-words">{description}</div>
       {/* Wybrany slajd powiększony */}
       <div className="w-full max-w-xl flex justify-center items-center relative h-[450px]">
         {/* Przycisk strzałki w lewo */}

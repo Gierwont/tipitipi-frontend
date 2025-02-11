@@ -91,9 +91,9 @@ const Post = ({
       {/* //<Link to={`/blog/${id}`}> */}
       <button
         onClick={() => toggleShow()}
-        className="border p-2 ml-4 mb-4 border-gray-900 hover:bg-gray-900 hover:text-orange-400 hover:duration-300 rounded-md"
+        className="flex justify-center items-center border w-[50px] text-4xl  h-[50px] p-2 ml-4 mb-4 border-gray-900 hover:bg-gray-900 hover:text-white hover:duration-300 rounded-full"
       >
-        {show ? "Schowaj" : "Zobacz więcej"}
+        {show ? <>&uarr;</> : <>&darr;</> }
       </button>
       {/* //</Link>
       // ) : (
