@@ -10,7 +10,7 @@ export function makeGalleryMultipart(images: FileList): [FormData, Error[]] {
                         continue
                 }
 
-                form.append("files[]", new Blob([f], { type: f.type}))
+                form.append("images[]", new Blob([f], { type: f.type}))
         }
 
         return [form, errors]
