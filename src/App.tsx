@@ -33,7 +33,7 @@ function App() {
       {/* <Monitoring apiKey="AnqmUAZGoTDxYC7R9b3aZIGoEn8NoHS_" params={{}} path="/" url="https://monitoring.react-scan.com/api/v1/ingest"/> */}
       <ToastContainer
         position="top-center"
-        autoClose={2000}
+        autoClose={6000}
         hideProgressBar={false}
         closeOnClick
         rtl={false}

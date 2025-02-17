@@ -43,7 +43,6 @@ function base64ToBlob(base64: string): Blob | null {
   return new Blob([byteArray], { type: mimeType });
 }
 
-
 function extractImagesFromContent(content: string) {
   const images: string[] = [];
   let i = -1;
@@ -66,53 +65,51 @@ export function buildPostMultipart(title: string, content: string) {
 
   formData.append("title", title);
   formData.append("content", extractedData.contentWithoutImages);
-  console.log(extractedData.contentWithoutImages)
+  console.log(extractedData.contentWithoutImages);
 
   for (const image of base64images) {
     const blob = base64ToBlob(image);
     if (!blob) {
       return;
     }
-    formData.append(
-      "files[]",
-      blob,
-      title + "." + blob.type.split("/")[1]
-    );
+    formData.append("files[]", blob, title + "." + blob.type.split("/")[1]);
   }
 
   return formData;
 }
 
-export function buildGalleryMultipart(images : FileList) : FormData | null{
-  const formData = new FormData();
-  for(const image of images) {
-    const blob = imageToBlob(image) 
-    if(!blob) return null
-    formData.append("files[]" , blob )
+// export async function buildGalleryMultipart(images: FileList): Promise< FormData | null> {
+//   const formData = new FormData();
+//   for (const image of images) {
+//     const blob = imageToBlob(image);
+//     if (!blob) continue
+
+//     console.log(await blob.arrayBuffer())
+
+//     formData.append("files[]", blob);
+//   }
+//   return formData;
+// }
+
+// function imageToBlob(image: File): Blob | null {
+//   if (!image.type.match(/image\/(webp|jpeg|png|gif)/)) {
+//     console.error("File is not a supported image type.");
+//     return null;
+//   }
+
+//   // Zwracamy nowy Blob z ustawionym typem MIME
+//   return new Blob([image], { type: image.type });
+// }
+
+export function getToken() {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    console.error("Token is invalid, redirecting to login page...");
+    window.location.href = "/admin/login";
+    return false;
   }
-  return formData
+  return token;
 }
-
-function imageToBlob (image : File) : Blob | null{
-  if (!image.type.match(/image\/(webp|jpeg|png|gif)/)) {
-    console.error("File is not a supported image type.");
-    return null;
-  }
-
-  // Zwracamy nowy Blob z ustawionym typem MIME
-  return new Blob([image], { type: image.type });
-}
-
-export function getToken(){
-    const token = localStorage.getItem("token");
-    if (!token) {
-      console.error("Token is invalid, redirecting to login page...");
-      window.location.href = "/admin/login"
-      return false;
-    }
-    return token
-}
-
 
 //z deepseka na szybko
 export const urlToBase64 = async (imageUrl: string): Promise<string> => {
@@ -130,13 +127,13 @@ export const urlToBase64 = async (imageUrl: string): Promise<string> => {
     const base64 = await new Promise<string>((resolve, reject) => {
       const reader = new FileReader();
       reader.onloadend = () => {
-        if (typeof reader.result === 'string') {
+        if (typeof reader.result === "string") {
           resolve(reader.result);
         } else {
-          reject(new Error('Failed to convert blob to base64'));
+          reject(new Error("Failed to convert blob to base64"));
         }
       };
-      reader.onerror = () => reject(new Error('Failed to read file'));
+      reader.onerror = () => reject(new Error("Failed to read file"));
       reader.readAsDataURL(blob);
     });
 
@@ -145,7 +142,7 @@ export const urlToBase64 = async (imageUrl: string): Promise<string> => {
     throw new Error(
       error instanceof Error
         ? `Failed to convert image to base64: ${error.message}`
-        : 'Failed to convert image to base64'
+        : "Failed to convert image to base64"
     );
   }
 };

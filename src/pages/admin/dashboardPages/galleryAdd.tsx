@@ -1,18 +1,21 @@
-import { useEffect, useState } from "react"
-import { GalleryGroup } from "../../../functions/interfaces"
-import {
-        buildGalleryMultipart,
-        getToken,
-} from "../../../functions/postManipulatingFunctions"
-import validateToken from "../../../functions/validate"
-import Unauthorized from "../../errorPages/unauthorized"
+import { useEffect, useState } from "react";
+import { GalleryGroup } from "../../../functions/interfaces";
+import { getToken } from "../../../functions/postManipulatingFunctions";
+import validateToken from "../../../functions/validate";
+import Unauthorized from "../../errorPages/unauthorized";
 
-import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import { API_URL } from '../../../functions/global'
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { API_URL } from "../../../functions/global";
+import { makeGalleryMultipart } from "../../../functions/gallery";
 
+const METHOD_POST = "POST" as const;
 
-async function addNewGroup(name: string , description : string , setNewGroupName: React.Dispatch<React.SetStateAction<string>>) {
+async function addNewGroup(
+  name: string,
+  description: string,
+  setNewGroupName: React.Dispatch<React.SetStateAction<string>>
+) {
   const token = getToken();
   if (name == "") {
     toast.warn("Nie podano nazwy nowego albumu");
@@ -22,26 +25,22 @@ async function addNewGroup(name: string , description : string , setNewGroupName
     return;
   }
   try {
-    const response = await fetch(
-      `${API_URL}/gallery`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          name: name,
-          description: description
-      }) 
-      }
-    );
+    const response = await fetch(`${API_URL}/gallery`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        name: name,
+        description: description,
+      }),
+    });
 
     if (response.status >= 200 && response.status < 300) {
-      setNewGroupName("")
-      toast.success("Dodano album")
-      window.location.reload()
-    } 
-    else{
+      setNewGroupName("");
+      toast.success("Dodano album");
+      window.location.reload();
+    } else {
       throw new Error(response.statusText);
     }
   } catch (error) {
@@ -50,71 +49,88 @@ async function addNewGroup(name: string , description : string , setNewGroupName
   }
 }
 
+async function fetchGroups(
+  setGroups: React.Dispatch<React.SetStateAction<GalleryGroup[]>>
+) {
+  try {
+    const response = await fetch(`${API_URL}/gallery?offset=0&limit=10`, {
+      method: "GET",
+    });
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+
+    const data: Array<GalleryGroup> = await response.json();
+    setGroups((prevGroups) => prevGroups?.concat(data));
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 const GalleryAdd = () => {
   const [newGroupName, setNewGroupName] = useState("");
   const [newGroupDesc, setNewGroupDesc] = useState("");
   const [groups, setGroups] = useState<GalleryGroup[]>([]);
-  const [selectedGroup, setSelectedGroup] = useState<GalleryGroup | null>();
+  const [selectedGroup, setSelectedGroup] = useState<
+    GalleryGroup | undefined
+  >();
   const [images, setImages] = useState<FileList | null>();
 
-  async function fetchGroups() {
-    try {
-      const response = await fetch(
-        `${API_URL}/gallery?offset=0&limit=10`,
-        {
-          method: "GET",
-        }
-      );
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-
-      const data: Array<GalleryGroup> = await response.json();
-      setGroups((prevGroups) => prevGroups?.concat(data));
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   async function addImages() {
-    if (selectedGroup == null) {
-      toast.warn("Nie wybrano do którego albumu docelowego");
+    if (selectedGroup === undefined) {
+      toast.warn("Nie wybrano albumu docelowego");
       return;
     }
-    if (images?.length == null) {
-      toast.warn("Nie wybrano zdjęć");
-      return;
-    }
-    if (!window.confirm("Czy napewno chcesz dodać zdjęcia?")) {
-      return;
-    }
-    const token = getToken();
-    const formData = buildGalleryMultipart(images);
-    console.log(images)
-    console.log(formData)
-    try {
-      const response = await fetch(
-        `${API_URL}/gallery/${selectedGroup.id}/images`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        }
-      );
 
-      if (response.status >= 200 && response.status < 300) {
-        toast.success("Dodano zdjęcia");
-        setImages(null)
-      } else{
-        throw new Error(response.statusText);
-      }
-    } catch (error) {
-      console.error(error);
-      
-      toast.error("Wystąpił błąd: " + error);
+    if (images === undefined || images === null || images.length <= 0) {
+      toast.warn("Formularz jest pusty. Dodaj kilka zdjęć");
+      return;
     }
+    
+    const token = getToken();
+    const [formData, errors] = makeGalleryMultipart(images);
+
+    console.log(errors.length)
+
+    if (errors.length > 0) {
+      for (const err of errors) {
+        console.error(err);
+      }
+
+      toast.info(
+        `Zignorowano ${errors.length} plików z powodu błędów. Sprawdź konsole`
+      );
+    }
+
+    fetch(`${API_URL}/gallery/${selectedGroup.id}/images`, {
+      method: METHOD_POST,
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        switch (res.status) {
+          case 200:
+            toast.success(`Zdjęci${images.length > 1 ? "a" : "e"} dodane`);
+            break;
+          case 400:
+            toast.error("Formularz jest niepoprawny");
+            break;
+          case 404:
+            toast.error(`Grupa pod ID ${selectedGroup.id} nie istnieje`);
+            break;
+          case 500:
+            toast.error(`Błąd serwera`);
+            break;
+          default:
+            break;
+        }
+      })
+      .catch((e) => {
+        toast.error("Błąd wysyłania formularza. Sprawdź konsole");
+        console.error(e);
+      });
   }
 
   const [loading, setLoading] = useState(true);
@@ -128,7 +144,7 @@ const GalleryAdd = () => {
   useEffect(() => {
     const fetchGroupsEffect = async () => {
       if (isAuthorized && groups.length == 0) {
-        await fetchGroups();
+        await fetchGroups(setGroups);
       }
     };
     fetchGroupsEffect();
@@ -157,7 +173,8 @@ const GalleryAdd = () => {
 
         <label className="text-xl" htmlFor="newAlbumDescription">
           Podaj opis nowego albumu:{" "}
-        </label><br></br>
+        </label>
+        <br></br>
         <input
           className="border-2 min-w-[400px] w-1/2"
           type="text"
@@ -167,12 +184,13 @@ const GalleryAdd = () => {
         />
         <br></br>
 
-
         <button
           className={
             "border w-40 bg-white shadow-lg hover:bg-slate-100 hover:duration-300 mt-6"
           }
-          onClick={() => addNewGroup(newGroupName,newGroupDesc , setNewGroupName)}
+          onClick={() =>
+            addNewGroup(newGroupName, newGroupDesc, setNewGroupName)
+          }
         >
           Stwórz nowy album
         </button>
@@ -217,7 +235,7 @@ const GalleryAdd = () => {
           className="mb-8"
           type="file"
           name="image"
-          accept="image/*"
+          accept="image/jpeg, image/png, image/webp"
           value={images ? undefined : ""}
           onChange={(e) => {
             setImages(e.target.files);
@@ -226,14 +244,19 @@ const GalleryAdd = () => {
         />
         <br></br>
 
-        <button
-          className={
-            "border w-40 bg-white shadow-lg hover:bg-slate-100 hover:duration-300"
-          }
-          onClick={() => addImages()}
-        >
-          Dodaj
-        </button>
+        
+        {selectedGroup === undefined ? (
+          void 0
+        ) : (
+          <button
+            className={
+              "border w-40 bg-white shadow-lg hover:bg-slate-100 hover:duration-300"
+            }
+            onClick={() => addImages()}
+          >
+            Dodaj
+          </button>
+        )}
       </div>
     </div>
   );
