@@ -27,21 +27,26 @@ async function updateCredentials() {
     if(!validateAdminForm(newLogin,newPassword)) {
       return;
     }
-
+    console.log(JSON.stringify({
+      username: newLogin,
+      password: newPassword,
+     
+    }))
     const token = getToken()
 
     try{
-    const response = await fetch(`${API_URL}/admin/account`, {
+    const response = await fetch(`${API_URL}/admin/update`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`
       },
       body: JSON.stringify({
-        Password: newPassword,
-        Username: newLogin
+        username: newLogin,
+        password: newPassword,
+       
       })
     });
-
+ 
     if (response.status >= 200 && response.status < 300) {
       toast.success("Zaktualizowano");
       localStorage.setItem("token",'')

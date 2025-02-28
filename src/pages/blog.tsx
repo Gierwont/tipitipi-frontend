@@ -101,7 +101,6 @@ const Blog = () => {
       </select>
       {posts ? (
         posts.map((post, index) => {
-          console.log(post)
           return (
             <div key={index} className="mt-12">
               <Post

@@ -90,8 +90,6 @@ const GalleryAdd = () => {
     const token = getToken();
     const [formData, errors] = makeGalleryMultipart(images);
 
-    console.log(errors.length)
-
     if (errors.length > 0) {
       for (const err of errors) {
         console.error(err);

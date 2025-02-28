@@ -18,7 +18,7 @@ async function deleteGroup(id: number) {
   const token = getToken();
 
   try {
-    const response = await fetch(`${API_URL}/gallery/groups/${id}`, {
+    const response = await fetch(`${API_URL}/gallery/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -51,12 +51,15 @@ const GalleryEdit = () => {
     const token = getToken();
     try {
       const response = await fetch(
-        `${API_URL}/gallery/groups/${GroupID}/images/${imageID}`,
+        `${API_URL}/gallery/${GroupID}/images`,
         {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`,
           },
+          body: JSON.stringify({
+            ids: [imageID]
+          })
         }
       );
       if (!response.ok) {
@@ -88,12 +91,12 @@ const GalleryEdit = () => {
 
   try {
     const response = await fetch(
-      `${API_URL}/gallery/groups/${id}/images`,
+      `${API_URL}/gallery/${id}/images`,
       {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
-        },
+        }
       }
     );
 
@@ -120,7 +123,7 @@ const GalleryEdit = () => {
     async function fetchPost() {
       try {
         const response = await fetch(
-          `${API_URL}/gallery/everything`,
+          `${API_URL}/gallery?offset=0&limit=10`,
           {
             method: "GET",
           }
@@ -204,14 +207,14 @@ const GalleryEdit = () => {
           )}
           <div className="text-center">
 
-            <button
+            {/* <button
               className={`${RED_BUTTON_CSS} m-10`}
               onClick={() => deleteImages(selectedGroup.id)}
             >
               Usuń zdjęcia
-            </button>
+            </button> */}
             <button
-              className={RED_BUTTON_CSS}
+              className={`${RED_BUTTON_CSS} px-12 py-4`}
               onClick={() => deleteGroup(selectedGroup.id)}
             >
               Usuń album
