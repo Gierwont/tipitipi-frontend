@@ -38,15 +38,16 @@ async function updateCredentials() {
     const response = await fetch(`${API_URL}/admin/update`, {
       method: "PATCH",
       headers: {
+         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
       },
       body: JSON.stringify({
         username: newLogin,
-        password: newPassword,
+        password: newPassword
        
       })
     });
- 
+    console.log(response)
     if (response.status >= 200 && response.status < 300) {
       toast.success("Zaktualizowano");
       localStorage.setItem("token",'')
